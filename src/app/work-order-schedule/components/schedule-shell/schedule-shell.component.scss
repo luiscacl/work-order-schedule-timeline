@@ -1,0 +1,23 @@
+.shell__topbar{
+  width: 100%;
+  height: 50px;  
+  display: flex;
+  align-items: center;  
+  padding-left: 101px;
+}
+
+.shell__container {
+  padding-top: 45px;
+  margin: 0 auto;
+  padding-left: 101px;
+  padding-right: 101px;
+}
+
+.shell__title {
+  width: 142px;
+  height: 34px;
+  color: rgba(3, 9, 41, 1);
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 0;
+}

@@ -1,0 +1,23 @@
+<div class="timescale-control" #tsRoot>
+  <div class="timescale-label">Timescale</div>
+  <ng-select
+    class="timescale-select"
+    [items]="timescales"
+    bindLabel="label"
+    bindValue="value"
+    [formControl]="control"
+    [clearable]="false"
+    [searchable]="false"
+    [dropdownPosition]="'auto'"
+  >
+    <ng-template ng-label-tmp let-item="item">
+      <span class="ts-value">{{ item.label }}</span>
+    </ng-template>
+
+    <ng-template ng-option-tmp let-item="item" let-state="state">
+      <span class="ts-option" [class.is-selected]="state?.selected">
+        {{ item.label }}
+      </span>
+    </ng-template>
+  </ng-select>
+</div>

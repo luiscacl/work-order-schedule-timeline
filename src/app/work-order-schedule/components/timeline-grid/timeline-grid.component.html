@@ -1,0 +1,56 @@
+<div class="grid">
+  <div class="grid__left">
+    <div class="grid__left-header">Work Center</div>
+
+    <div class="grid__left-rows">
+      <div
+        class="grid__left-row"
+        *ngFor="let wc of workCenters; let i = index"
+        [class.is-hover-left]="hoveredId === wc.docId"
+        [class.is-first]="i === 0"
+        (mouseenter)="hoveredId = wc.docId"
+        (mouseleave)="hoveredId = null"
+      >
+        {{ wc.data.name }}
+      </div>
+    </div>
+  </div>
+
+  <div class="grid__right">
+    <div class="grid__scroll" #scrollEl>
+      <div class="grid__content" [style.width.px]="gridWidthPx">
+        <div class="grid__header">
+          <div
+            class="grid__header-cell"
+            *ngFor="let u of units"
+            [style.width.px]="unitWidth[timescale]"
+          >
+            {{ u.label }}
+          </div>
+        </div>
+
+        <div class="grid__rows">
+          <div
+            class="grid__row"
+            *ngFor="let wc of workCenters; let i = index"
+            [class.is-hover-right]="hoveredId === wc.docId"
+            [class.is-first]="i === 0"
+            (mouseenter)="hoveredId = wc.docId"
+            (mouseleave)="hoveredId = null"
+          >
+            <div
+              class="grid__cell"
+              *ngFor="let u of units"
+              [style.width.px]="unitWidth[timescale]"
+            ></div>
+          </div>
+
+          <div class="grid__today" [style.left.px]="todayLeftPx"></div>
+          <div class="grid__current" [style.left.px]="currentPeriodLeftPx">
+            <div class="grid__current-badge">{{ currentPeriodLabel }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

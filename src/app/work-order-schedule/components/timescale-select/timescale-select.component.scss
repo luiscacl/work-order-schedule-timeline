@@ -1,0 +1,174 @@
+.timescale-control {
+  display: inline-flex;
+  align-items: center;
+  margin: 24px 0;
+  width: 146px;
+  height: 25px;
+  box-shadow: 1px 2.5px 3px -1.5px rgba(200, 207, 233, 1);
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 1);
+  position: relative;
+}
+
+.timescale-label {
+  width: 75px;
+  height: 25px;
+  background: rgba(241, 243, 248, 0.75);
+  color: rgba(104, 113, 150, 1);
+  font-size: 13px;
+  font-weight: 400;
+  border-radius: 5px 0 0 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.timescale-select {
+  width: 71px !important;
+  height: 25px !important;
+}
+
+.timescale-select::ng-deep .ng-select-container,
+.timescale-select.ng-select-opened::ng-deep .ng-select-container,
+.timescale-select.ng-select-focused::ng-deep .ng-select-container,
+.timescale-select.ng-has-value::ng-deep .ng-select-container {
+  width: 71px !important;
+  height: 25px !important;
+  min-height: 25px !important;
+  cursor: pointer;
+  
+  border: 0 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  border-radius: 0 5px 5px 0 !important;
+
+  padding: 0 !important;
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  align-items: center !important;
+}
+
+.timescale-select::ng-deep .ng-value-container {
+  height: 25px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.timescale-select .ts-value {
+  color: rgba(62, 64, 219, 1);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1;
+
+  white-space: nowrap;
+  overflow: visible;  
+  text-overflow: clip;
+    display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timescale-select::ng-deep .ng-value {
+  min-width: 0 !important;
+}
+
+.timescale-select::ng-deep .ng-input {
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 0 !important;
+}
+
+.timescale-select::ng-deep .ng-arrow {
+  display: none !important;
+}
+
+.timescale-select::ng-deep .ng-arrow-wrapper {
+  width: 10px !important;    
+  height: 10px !important;
+  padding: 0 !important;
+  margin-right: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timescale-select::ng-deep .ng-arrow-wrapper::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  display: block;
+  margin-top: 2px;
+
+  background: url("/assets/brand/arrow-down.svg") no-repeat center;
+  background-size: contain;
+}
+
+.timescale-select ::ng-deep .ng-dropdown-panel {
+  margin-top: 5px;
+  width: 200px !important;
+  border-radius: 5px !important;
+  box-shadow: 0 0 0 1px rgba(104, 113, 150, 0.1) , 0 2.5px 3px -1.5px rgba(200, 207, 233, 1) , 0 4.5px 5px -1px rgba(216, 220, 235, 1);
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 12px 0;
+  left: -75px !important;
+  right: auto !important; 
+}
+
+.timescale-select ::ng-deep .ng-dropdown-panel .ng-option {
+  padding: 0 !important;
+}
+
+.ts-option {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  font-size: 14px;
+  font-weight: 400;
+  padding-left: 12px;
+  color: rgba(47, 48, 89, 1);
+}
+
+.ts-option.is-selected {
+  color: rgba(62, 64, 219, 1);
+  font-weight: 500;
+}
+
+.timescale-select ::ng-deep .ng-dropdown-panel .ng-option.ng-option-selected .ts-option {
+  color: rgba(62, 64, 219, 1) !important;
+  font-weight: 400 !important;
+}
+
+.timescale-select ::ng-deep .ng-select-container {
+  display: flex !important;
+}
+
+.timescale-select ::ng-deep .ng-value-container {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.ts-option, .timescale-select ::ng-deep .ng-dropdown-panel .ng-option {
+  text-align: left !important;
+}
+
+.timescale-select ::ng-deep .ng-dropdown-panel .ng-option.ng-option-selected {
+  background: transparent !important;
+}
+
+.timescale-select ::ng-deep .ng-dropdown-panel .ng-option.ng-option-marked {
+  background: transparent !important;
+}
+

@@ -1,0 +1,19 @@
+<main>
+  <header class="shell__topbar">
+    <img src="assets/brand/naologic.svg" alt="NAOLOGIC" />
+  </header>
+  <div class="shell__container">
+
+    <h1 class="shell__title">Work Orders</h1>
+
+    <app-timescale-select
+      [value]="timescale"
+      (valueChange)="onTimescaleChange($event)">
+    </app-timescale-select>
+
+    <app-timeline-grid
+      [timescale]="timescale"
+      [workCenters]="workCenters">
+    </app-timeline-grid>
+  </div>
+</main>
