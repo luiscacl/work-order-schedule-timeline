@@ -11,12 +11,26 @@
       (valueChange)="onTimescaleChange($event)">
     </app-timescale-select>
 
+
     <app-timeline-grid
       [timescale]="timescale"
       [workCenters]="workCenters"
       [workOrders]="workOrders"
+      (createAt)="openCreatePanel($event)"
       (editOrder)="openEditPanel($event)"
-      (deleteOrder)="deleteWorkOrder($event)">
-    </app-timeline-grid>
+      (deleteOrder)="deleteWorkOrder($event)"
+    ></app-timeline-grid>
+
+    <app-work-order-drawer
+      [open]="drawerOpen"
+      [mode]="drawerMode"
+      [workCenterId]="drawerWorkCenterId"
+      [startPrefill]="drawerStart"
+      [endPrefill]="drawerEnd"
+      [editingOrder]="editingOrder"
+      [allOrders]="workOrders"
+      (cancel)="closeDrawer()"
+      (save)="onDrawerSave($event)"
+    ></app-work-order-drawer>
   </div>
 </main>

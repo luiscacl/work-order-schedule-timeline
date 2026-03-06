@@ -1,0 +1,106 @@
+<div class="drawer-backdrop" *ngIf="open()" (click)="onBackdropClick()"></div>
+
+<aside class="drawer" [class.is-open]="open()" (click)="$event.stopPropagation()">
+  <div class="drawer__header">
+    <div class="drawer__title">
+      <div class="drawer__title-main">Work Order Details</div>
+      <div class="drawer__title-sub">Specify the dates, name and status for this order</div>
+    </div>
+
+    <div class="drawer__actions">
+      <button type="button" class="secondary-btn" (click)="cancel.emit()">Cancel</button>
+      <button type="button" class="primary-btn" (click)="onSubmit()">
+        {{ mode() === 'edit' ? 'Save' : 'Create' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="drawer__divider"></div>
+
+  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label class="field">
+      <span class="field__label">Work Order Name</span>
+      <input class="input" type="text" formControlName="name" />
+      <span class="field__error" *ngIf="form.controls.name.touched && form.controls.name.invalid">
+        Required
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field__label">Status</span>
+
+      <ng-select
+        class="ngs"
+        [items]="statusOptions"
+        bindLabel="label"
+        bindValue="value"
+        [clearable]="false"
+        [searchable]="false"
+        [ngClass]="statusClass"
+        formControlName="status"
+      >
+        <ng-template ng-label-tmp let-item="item">
+          <span class="status-pill" [class]="'is-' + item.value">{{ item.label }}</span>
+        </ng-template>
+
+        <ng-template ng-option-tmp let-item="item">
+          <div class="status-option" [class]="'is-' + item.value">
+            {{ item.label }}
+          </div>
+        </ng-template>
+      </ng-select>
+
+      <span class="field__error" *ngIf="form.controls.status.touched && form.controls.status.invalid">
+        Required
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field__label">End date</span>
+
+      <div class="date">
+        <input
+          class="input date__input"
+          ngbDatepicker
+          #endDp="ngbDatepicker"
+          formControlName="end"
+          (click)="endDp.toggle()"
+          readonly
+        />
+        <button type="button" class="date__chev" (click)="endDp.toggle()" aria-label="Open datepicker">
+          ▾
+        </button>
+      </div>
+
+      <span class="field__error" *ngIf="form.controls.end.touched && form.controls.end.invalid">
+        Required
+      </span>
+    </label>
+
+    <label class="field">
+      <span class="field__label">Start date</span>
+
+      <div class="date">
+        <input
+          class="input date__input"
+          ngbDatepicker
+          #startDp="ngbDatepicker"
+          formControlName="start"
+          (click)="startDp.toggle()"
+          readonly
+        />
+        <button type="button" class="date__chev" (click)="startDp.toggle()" aria-label="Open datepicker">
+          ▾
+        </button>
+      </div>
+
+      <span class="field__error" *ngIf="form.controls.start.touched && form.controls.start.invalid">
+        Required
+      </span>
+    </label>
+    <div class="form__error" *ngIf="form.touched && form.errors?.['dateRange']">
+      End date must be after start date.
+    </div>
+    <div class="form__error" *ngIf="overlapError">{{ overlapError }}</div>
+  </form>
+</aside>

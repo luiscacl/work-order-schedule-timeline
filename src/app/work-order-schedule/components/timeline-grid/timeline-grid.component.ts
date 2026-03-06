@@ -70,7 +70,13 @@ export class TimelineGridComponent {
     this.centerOnCurrent();
 
     const el = this.scrollEl?.nativeElement;
-    if (el) el.addEventListener('scroll', () => this.closeMenu(), { passive: true });
+    if (!el) return;
+
+    el.addEventListener(
+      'pointerup',
+      (ev) => this.onTimelinePointerUp(ev as PointerEvent),
+      { passive: true }
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -93,16 +99,6 @@ export class TimelineGridComponent {
 
   onRemove(o: WorkOrder) {
     this.deleteOrder.emit(o);
-  }
-
-  onRowClick(ev: MouseEvent, wcId: string) {
-    const target = ev.target as HTMLElement;
-    if (target.closest('app-work-order-bar') || target.closest('.menu-overlay') || target.closest('.bar__menu')) return;
-
-    const xClick = this.getTimelineX(ev);
-    const { start, end } = this.getGhostRangeFromClick(xClick);
-
-    this.createAt.emit({ workCenterId: wcId, start, end });
   }
 
   onRowMouseMove(ev: MouseEvent, wcId: string) {
@@ -459,6 +455,42 @@ export class TimelineGridComponent {
     const rect = scroll.getBoundingClientRect();
     const x = (ev.clientX - rect.left) + scroll.scrollLeft;
 
+    return this.clampX(x);
+  }
+
+  private onTimelinePointerUp(ev: PointerEvent) {
+    if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+
+    const path = ev.composedPath() as Array<EventTarget>;
+    const elTarget = (path.find(n => n instanceof HTMLElement) as HTMLElement | undefined) ?? (ev.target as HTMLElement);
+
+    if (elTarget.closest('.menu-overlay') || elTarget.closest('.bar__menu') || elTarget.closest('app-work-order-bar')) {
+      return;
+    }
+
+    const row = elTarget.closest('.grid__row') as HTMLElement | null;
+    if (!row) {
+      return;
+    }
+
+    const wcId = row.dataset['wc'] || row.getAttribute('data-wc');
+    if (!wcId) {
+      return;
+    }
+
+    const x = this.getTimelineXFromPointer(ev);
+    if (this.isXOverAnyBar(wcId, x)) return;
+
+    const { start, end } = this.getGhostRangeFromClick(x);
+    this.createAt.emit({ workCenterId: wcId, start, end });
+  }
+
+  private getTimelineXFromPointer(ev: PointerEvent): number {
+    const scroll = this.scrollEl?.nativeElement;
+    if (!scroll) return 0;
+
+    const rect = scroll.getBoundingClientRect();
+    const x = (ev.clientX - rect.left) + scroll.scrollLeft;
     return this.clampX(x);
   }
 }

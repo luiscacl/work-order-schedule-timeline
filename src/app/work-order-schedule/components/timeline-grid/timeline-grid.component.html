@@ -38,7 +38,7 @@
             (mouseenter)="hoveredId = wc.docId"
             (mouseleave)="hoveredId = null; onRowMouseLeave()"
             (mousemove)="onRowMouseMove($event, wc.docId)"
-            (click)="onRowClick($event, wc.docId)"
+            [attr.data-wc]="wc.docId"
           >
             <div
               class="grid__cell"
