@@ -62,3 +62,19 @@ export function startOfWeek(d: Date): Date {
   day.setDate(day.getDate() - dayNum);
   return day;
 }
+
+export function parseISODate(s: string): Date {
+  if (s.includes('T')) {
+    const d = new Date(s);
+    return d;
+  }
+  const [y, m, d] = s.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+
+export function toISODate(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}

@@ -36,15 +36,40 @@
             [class.is-hover-right]="hoveredId === wc.docId"
             [class.is-first]="i === 0"
             (mouseenter)="hoveredId = wc.docId"
-            (mouseleave)="hoveredId = null"
+            (mouseleave)="hoveredId = null; onRowMouseLeave()"
+            (mousemove)="onRowMouseMove($event, wc.docId)"
+            (click)="onRowClick($event, wc.docId)"
           >
             <div
               class="grid__cell"
               *ngFor="let u of units"
               [style.width.px]="unitWidth[timescale]"
             ></div>
-          </div>
+            <div class="grid__row-overlay">
+              <div
+                class="grid__ghost"
+                *ngIf="ghostVisible && hoverRowId === wc.docId"
+                [style.left.px]="ghostXRaw"
+                [style.width.px]="ghostWidthPx()"
+              >
+                <span>Click to add dates</span>
+              </div>
 
+              <div
+                class="grid__bar-wrap"
+                *ngFor="let o of ordersByCenter[wc.docId] ?? []"
+                [style.left.px]="barLeftPx(o)"
+                [style.width.px]="barWidthPx(o)"
+              >
+                <app-work-order-bar
+                  [order]="o"
+                  (menuToggle)="onMenuToggle($event)"
+                  (edit)="onEdit($event)"
+                  (remove)="onRemove($event)"
+                />
+              </div>
+            </div>
+          </div>
           <div class="grid__today" [style.left.px]="todayLeftPx"></div>
           <div class="grid__current" [style.left.px]="currentPeriodLeftPx">
             <div class="grid__current-badge">{{ currentPeriodLabel }}</div>
@@ -52,5 +77,14 @@
         </div>
       </div>
     </div>
+  </div>
+  <div
+    class="menu-overlay"
+    *ngIf="menuOrder as o"
+    [style.top.px]="menuTop"
+    [style.left.px]="menuLeft"
+  >
+    <button (click)="handleEdit(o)">Edit</button>
+    <button class="is-danger" (click)="handleDelete(o)">Delete</button>
   </div>
 </div>

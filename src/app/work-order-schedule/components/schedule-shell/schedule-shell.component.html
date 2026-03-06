@@ -13,7 +13,10 @@
 
     <app-timeline-grid
       [timescale]="timescale"
-      [workCenters]="workCenters">
+      [workCenters]="workCenters"
+      [workOrders]="workOrders"
+      (editOrder)="openEditPanel($event)"
+      (deleteOrder)="deleteWorkOrder($event)">
     </app-timeline-grid>
   </div>
 </main>

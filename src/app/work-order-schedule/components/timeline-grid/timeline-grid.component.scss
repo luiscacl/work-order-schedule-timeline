@@ -84,6 +84,7 @@
 .grid__row {
   height: 48px;
   display: flex;
+  position: relative;
 }
 
 .grid__row.is-hover-right {
@@ -150,10 +151,6 @@
   background-color: rgba(238, 240, 255, 1);
 }
 
-.grid__rows {
-  position: relative;
-}
-
 .grid__current {
   position: absolute;
   top: 0;
@@ -179,4 +176,83 @@
   white-space: nowrap;
   font-size: 14px;
   font-weight: 400;
+}
+
+.grid__row-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none; 
+}
+
+.grid__bar-wrap {
+  position: absolute;
+  top: 8px;
+  height: 32px;
+  pointer-events: auto;
+}
+
+.grid__ghost {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transform: translate(-50%, -50%); 
+  height: 38px;
+  border: 1px solid rgba(195, 199, 255, 1);
+  border-radius: 8px;
+  background-color: rgba(101, 112, 255, 0.1);
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    width: 130px;
+    height: 26px;
+    box-shadow: 0 2px 4px -2px rgba(200, 207, 233, 1),
+    0 0 16px -8px rgba(230, 235, 240, 1);
+    border-radius: 8px;
+    background-color: rgba(104, 113, 150, 1);
+    color: rgba(249, 250, 255, 1);
+    font-size: 14px;
+    font-weight: 400;
+    top: -19px;
+    transform: translateY(-50%);
+    position: absolute;
+  }
+}
+
+.menu-overlay {
+  position: fixed;
+  z-index: 99999;
+  pointer-events: auto;
+  overflow: hidden;
+  width: 200px;
+  box-shadow: 0 0 0 1px rgba(104, 113, 150, 0.1),
+  0 2.5px 3px -1.5px rgba(200, 207, 233, 1),
+  0 4.5px 5px -1px rgba(216, 220, 235, 1);
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 12px 0;
+
+  button {
+    width: 100%;
+    text-align: left;
+    padding: 0px 12px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    height: 28px;
+    color: rgba(47, 48, 89, 1);
+    font-size: 14px;
+    font-weight: 400;
+
+    &.is-danger { color: rgba(62, 64, 219, 1); }
+  }
 }

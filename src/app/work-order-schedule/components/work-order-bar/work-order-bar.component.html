@@ -1,0 +1,11 @@
+<div class="bar" [class]="'is-' + order.data.status">
+  <div class="bar__name">{{ order.data.name }}</div>
+
+  <div class="bar__right">
+    <span class="bar__badge">{{ statusLabel }}</span>
+
+    <button class="bar__menu" #menuBtn (click)="toggleMenu($event, menuBtn)">
+      ···
+    </button>
+  </div>
+</div>
