@@ -1,59 +1,112 @@
-# WorkOrderScheduleTimeline
+## Running the project
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.0.
+Install dependencies:
 
-## Development server
+```bash
+npm install
+```
 
-To start a local development server, run:
+Start the development server:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Then open:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```text
+http://localhost:4200/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The app reloads automatically while developing.
 
-```bash
-ng generate --help
+## Setup notes
+
+This project does not require a backend or any external API. Everything needed for the challenge is included locally in the app.
+
+Work centers and work orders are provided as hardcoded seed data so the project can be reviewed immediately, with the focus staying on scheduling logic, interactions, and UI implementation.
+
+The design references use **Circular Std**. If needed, the font can be loaded with:
+
+```html
+<link
+  rel="stylesheet"
+  href="https://naologic-com-assets.naologic.com/fonts/circular-std/circular-std.css"
+/>
 ```
 
-## Building
+And then applied in SCSS like this:
 
-To build the project run:
-
-```bash
-ng build
+```scss
+font-family: 'Circular-Std';
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Approach
 
-## Running unit tests
+I tried to keep the feature easy to follow, so I split it into small standalone Angular components with clear responsibilities.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+The shell component owns the main state of the page, including the selected timescale, drawer mode, and current list of work orders. The timeline grid is responsible for the scheduling logic as generating the visible range, placing bars, and translating click positions into dates. The drawer handles form state and validation, while smaller pieces like the work order bar and timescale selector stay focused on UI behavior.
 
-```bash
-ng test
+The main technical decision was to base the timeline on date-to-pixel and pixel-to-date calculations instead of fixed positions. That made it easier to keep the same interaction model across all zoom levels. Once that mapping is consistent, bar placement, click-to-create behavior, and the current day indicator all become much easier to manage.
+
+The trickiest part is month view, because months do not all have the same number of days. To keep that view feeling natural, positioning is handled proportionally inside each month instead of assuming every month has the same length.
+
+I also kept the state local to the feature instead of adding heavier state management. For this challenge, the feature is self-contained, the data flow is easier to review, and the create, edit, and delete logic stays straightforward.
+
+## Libraries used
+
+This implementation keeps library usage intentionally light and close to the challenge requirements.
+
+**Angular Forms** is used for the create and edit drawer with Reactive Forms, validators, and cross-field validation.
+
+**`@ng-select/ng-select`** is used for select inputs like timescale and status. It was part of the requested stack and keeps dropdown behavior simple.
+
+**`@ng-bootstrap/ng-bootstrap`** is used for the datepicker in the drawer, matching the requirement to use `ngb-datepicker`.
+
+**Bootstrap** is included as a lightweight styling base and to support ng-bootstrap components cleanly.
+
+## Validation behavior
+
+The drawer form validates the required fields and the scheduling rules from the challenge.
+
+A work order cannot be saved unless it has a name, a status, a start date, and an end date. The end date must be later than the start date. On top of that, work orders assigned to the same work center are not allowed to overlap. If the user tries to create or edit a work order that conflicts with another order on the same row, the form shows an error and prevents saving.
+
+When editing an existing work order, the overlap check excludes the item being edited so unchanged ranges do not conflict with themselves.
+
+## Sample data
+
+The project includes local sample data that follows the document structure requested in the challenge.
+
+There are at least five work centers with manufacturing-style names, at least eight work orders, all four status types are represented, and at least one work center contains multiple non-overlapping orders.
+
+## Project structure
+
+```text
+src/
+  app/
+    core/
+      models/
+      utils/
+    work-order-schedule/
+      components/
+        schedule-shell/
+        timeline-grid/
+        timescale-select/
+        work-order-bar/
+        work-order-drawer/
+      data/
 ```
 
-## Running end-to-end tests
+The `core` folder contains shared models and date utilities. The `data` folder contains the seed documents. The feature components live inside `work-order-schedule/components`, with the shell acting as the main container and the other components handling more focused UI responsibilities.
 
-For end-to-end (e2e) testing, run:
+## Notes on implementation
 
-```bash
-ng e2e
-```
+Most of the complexity in this challenge lives in the timeline calculations rather than in the form itself.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+The main implementation work is around calculating the visible range for each scale, converting dates into horizontal positions, converting pointer positions back into dates, handling proportional positioning in month view, and validating overlap only within the same work center.
 
-## Additional Resources
+## AI usage
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+AI was used as a support tool during implementation, mainly to think through parts of the date math and speed up iteration while exploring timeline behavior.
+
+The final structure, interaction flow, and implementation details were still reviewed and adjusted manually to match the challenge requirements and the intended UI behavior.

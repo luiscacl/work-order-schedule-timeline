@@ -42,7 +42,7 @@ export const SEED_WORK_ORDERS: WorkOrder[] = [
       name: 'South Cable Run',
       workCenterId: 'wc-2',
       status: 'in-progress',
-      startDate: '2026-01-18',
+      startDate: '2026-01-25',
       endDate: '2026-03-18',
     },
   },
